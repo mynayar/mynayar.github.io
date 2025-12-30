@@ -1,0 +1,52 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Map View - Urban</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <style>
+        body { margin: 0; padding: 0; font-family: sans-serif; background: #f4f4f4; }
+        #map { height: 100vh; width: 100%; }
+        .info-panel {
+            position: absolute; top: 10px; right: 10px; z-index: 1000;
+            background: white; padding: 15px; border-radius: 8px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.2); width: 260px;
+        }
+        .label-group { margin-bottom: 10px; border-bottom: 1px solid #eee; padding-bottom: 5px; }
+        .label-group:last-child { border-bottom: none; }
+        .lvl { font-size: 0.75em; color: #888; text-transform: uppercase; font-weight: bold; }
+        .name { font-size: 1em; color: #333; }
+        .name-mm { font-size: 0.9em; color: #666; }
+        .pcode-badge { 
+            display: block; margin-top: 10px; background: #333; color: white; 
+            padding: 4px 8px; border-radius: 4px; font-family: monospace; font-size: 0.8em; text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="info-panel">
+        <div class="label-group"><div class="lvl">State/Region</div><div class="name">Bago (East)</div><div class="name-mm">ပဲခူးတိုင်းဒေသကြီး (အရှေ့)</div></div><div class="label-group"><div class="lvl">Township</div><div class="name">Yedashe</div><div class="name-mm">ရေတာရှည်</div></div><div class="label-group"><div class="lvl">Village Tract</div><div class="name">Urban</div><div class="name-mm"></div></div>
+        <span class="pcode-badge">MMR007010703</span>
+        <p style="margin-top:10px; font-size:0.7em; color:#bbb;">Table: vt_table</p>
+    </div>
+    <div id="map"></div>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script>
+        const map = L.map('map');
+        // FIXED: Corrected the braces here ({s}, {z}, {x}, {y})
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; OSM'
+        }).addTo(map);
+        
+        const geojsonData = {"type": "MultiPolygon", "coordinates": [[[[96.249872856747, 19.458363765075774], [96.25126111680714, 19.467803936902214], [96.25193899698718, 19.478650014386687], [96.25311449723631, 19.482614487668513], [96.25522342632013, 19.482596752138477], [96.25586891741665, 19.482591323830604], [96.25670199809878, 19.482546006992663], [96.25965286169026, 19.48238548789999], [96.26461516695645, 19.483084306995238], [96.2646920598907, 19.483095134832638], [96.26673727110824, 19.483145833213655], [96.2691439738154, 19.483205492439595], [96.27226825097904, 19.481965956863462], [96.27315550232464, 19.481181130205073], [96.27231052810845, 19.479925548924996], [96.27177447461236, 19.478466291885923], [96.27153622891387, 19.476470981350758], [96.27171491341261, 19.474981943262094], [96.27198294016063, 19.472837729277842], [96.27219140570884, 19.470812637693143], [96.27248921260713, 19.468936449557532], [96.27281680055495, 19.467358070118905], [96.27329329375056, 19.46604771742824], [96.2739484696462, 19.4647671448879], [96.27525882323619, 19.46298029990095], [96.27716479242127, 19.460478716019963], [96.27883251320998, 19.45839406323546], [96.2801428667999, 19.456339192399867], [96.2811851927425, 19.454582127563185], [96.28213817733507, 19.452854843776095], [96.28273379203091, 19.451395586736965], [96.28324006537679, 19.450174575396375], [96.28395785117397, 19.448227463126955], [96.28285031628911, 19.448145423372637], [96.27708833655754, 19.449501182833387], [96.27030954015322, 19.451534821574796], [96.26285286177023, 19.453568461215582], [96.25607406356721, 19.45526316076632], [96.249872856747, 19.458363765075774]]]]};
+        const layer = L.geoJSON(geojsonData, {
+            style: { color: "#0066ff", weight: 3, opacity: 0.6, fillOpacity: 0.2 }
+        }).addTo(map);
+        
+        map.fitBounds(layer.getBounds());
+    </script>
+</body>
+</html>

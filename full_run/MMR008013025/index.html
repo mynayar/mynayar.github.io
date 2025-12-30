@@ -1,0 +1,52 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Map View - Ywar Thar Yar</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <style>
+        body { margin: 0; padding: 0; font-family: sans-serif; background: #f4f4f4; }
+        #map { height: 100vh; width: 100%; }
+        .info-panel {
+            position: absolute; top: 10px; right: 10px; z-index: 1000;
+            background: white; padding: 15px; border-radius: 8px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.2); width: 260px;
+        }
+        .label-group { margin-bottom: 10px; border-bottom: 1px solid #eee; padding-bottom: 5px; }
+        .label-group:last-child { border-bottom: none; }
+        .lvl { font-size: 0.75em; color: #888; text-transform: uppercase; font-weight: bold; }
+        .name { font-size: 1em; color: #333; }
+        .name-mm { font-size: 0.9em; color: #666; }
+        .pcode-badge { 
+            display: block; margin-top: 10px; background: #333; color: white; 
+            padding: 4px 8px; border-radius: 4px; font-family: monospace; font-size: 0.8em; text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="info-panel">
+        <div class="label-group"><div class="lvl">State/Region</div><div class="name">Bago (West)</div><div class="name-mm">ပဲခူးတိုင်းဒေသကြီး (အနောက်)</div></div><div class="label-group"><div class="lvl">Township</div><div class="name">Monyo</div><div class="name-mm">မိုးညို</div></div><div class="label-group"><div class="lvl">Village Tract</div><div class="name">Ywar Thar Yar</div><div class="name-mm">ရွာသာယာ</div></div>
+        <span class="pcode-badge">MMR008013025</span>
+        <p style="margin-top:10px; font-size:0.7em; color:#bbb;">Table: vt_table</p>
+    </div>
+    <div id="map"></div>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script>
+        const map = L.map('map');
+        // FIXED: Corrected the braces here ({s}, {z}, {x}, {y})
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; OSM'
+        }).addTo(map);
+        
+        const geojsonData = {"type": "MultiPolygon", "coordinates": [[[[95.53310852933521, 18.14228978004934], [95.52982537434161, 18.142581616348593], [95.52572224088874, 18.143514145861218], [95.51732946808056, 18.14332763995867], [95.51248031101761, 18.14332763995867], [95.50867502403321, 18.143158516152653], [95.5087501902691, 18.14332763995867], [95.50781765895783, 18.145379206685107], [95.50639542071218, 18.14700462336475], [95.5087501902691, 18.15936716106569], [95.50986922568427, 18.166267884855074], [95.51397235913714, 18.180815356943242], [95.51438799431054, 18.18199299038423], [95.523567307885, 18.18314060265675], [95.53089166811606, 18.18314071866928], [95.53645824675073, 18.17933197109363], [95.53997403657257, 18.173765264755218], [95.53997413819599, 18.167905517026043], [95.54198462838792, 18.15745082629462], [95.53997666708955, 18.155077778916393], [95.53911998819694, 18.15179384600924], [95.5388814142459, 18.150879311930737], [95.53468294726025, 18.149784060885736], [95.5332226101354, 18.144672883646706], [95.53310852933521, 18.14228978004934]]]]};
+        const layer = L.geoJSON(geojsonData, {
+            style: { color: "#0066ff", weight: 3, opacity: 0.6, fillOpacity: 0.2 }
+        }).addTo(map);
+        
+        map.fitBounds(layer.getBounds());
+    </script>
+</body>
+</html>

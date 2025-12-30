@@ -1,0 +1,52 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Map View - Urban</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <style>
+        body { margin: 0; padding: 0; font-family: sans-serif; background: #f4f4f4; }
+        #map { height: 100vh; width: 100%; }
+        .info-panel {
+            position: absolute; top: 10px; right: 10px; z-index: 1000;
+            background: white; padding: 15px; border-radius: 8px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.2); width: 260px;
+        }
+        .label-group { margin-bottom: 10px; border-bottom: 1px solid #eee; padding-bottom: 5px; }
+        .label-group:last-child { border-bottom: none; }
+        .lvl { font-size: 0.75em; color: #888; text-transform: uppercase; font-weight: bold; }
+        .name { font-size: 1em; color: #333; }
+        .name-mm { font-size: 0.9em; color: #666; }
+        .pcode-badge { 
+            display: block; margin-top: 10px; background: #333; color: white; 
+            padding: 4px 8px; border-radius: 4px; font-family: monospace; font-size: 0.8em; text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="info-panel">
+        <div class="label-group"><div class="lvl">State/Region</div><div class="name">Magway</div><div class="name-mm">မကွေးတိုင်းဒေသကြီး</div></div><div class="label-group"><div class="lvl">Township</div><div class="name">Chauk</div><div class="name-mm">ချောက်</div></div><div class="label-group"><div class="lvl">Village Tract</div><div class="name">Urban</div><div class="name-mm"></div></div>
+        <span class="pcode-badge">MMR009003702</span>
+        <p style="margin-top:10px; font-size:0.7em; color:#bbb;">Table: vt_table</p>
+    </div>
+    <div id="map"></div>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script>
+        const map = L.map('map');
+        // FIXED: Corrected the braces here ({s}, {z}, {x}, {y})
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; OSM'
+        }).addTo(map);
+        
+        const geojsonData = {"type": "MultiPolygon", "coordinates": [[[[94.74928385236797, 20.838381965855092], [94.7487908674047, 20.83751924171969], [94.74732066201898, 20.83016821928794], [94.74458213375851, 20.818431670884934], [94.74415757101514, 20.818753442917114], [94.74384349628036, 20.81869633866512], [94.7433581078904, 20.81869633866512], [94.7429012720761, 20.81866778698884], [94.74235878033352, 20.818610681837526], [94.74181628679224, 20.818410815606683], [94.74127379415035, 20.81843936908166], [94.74067419725645, 20.818496473333653], [94.74016025629084, 20.818639234413183], [94.73970341957721, 20.81878199639209], [94.73941789831741, 20.81869633866512], [94.73918948041023, 20.818582130161246], [94.73898961417939, 20.819610011193106], [94.73873264369661, 20.82043802599418], [94.73853277836508, 20.82140880187478], [94.73841856896183, 20.821894191164063], [94.73833291303356, 20.82295062387226], [94.73839001728555, 20.824235475386956], [94.73844712243681, 20.826262683975756], [94.73839001728555, 20.82837555119079], [94.73821870363031, 20.829289222819455], [94.73816159937837, 20.83088814906887], [94.73824725620597, 20.832058791180316], [94.73847567411315, 20.833001015384582], [94.73893250992745, 20.834085999769115], [94.7396463162246, 20.83542795643507], [94.74070274893279, 20.836969776633907], [94.74155931720878, 20.83768358383037], [94.74255864476572, 20.838768569114222], [94.74358652579758, 20.839596583915238], [94.74444309407357, 20.840338942788037], [94.74535676570224, 20.84105274908518], [94.74609912367566, 20.84119551016471], [94.7472245982367, 20.841431246754667], [94.74928385236797, 20.838381965855092]]]]};
+        const layer = L.geoJSON(geojsonData, {
+            style: { color: "#0066ff", weight: 3, opacity: 0.6, fillOpacity: 0.2 }
+        }).addTo(map);
+        
+        map.fitBounds(layer.getBounds());
+    </script>
+</body>
+</html>

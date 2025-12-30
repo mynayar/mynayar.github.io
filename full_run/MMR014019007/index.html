@@ -1,0 +1,52 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Map View - Mai Hai</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <style>
+        body { margin: 0; padding: 0; font-family: sans-serif; background: #f4f4f4; }
+        #map { height: 100vh; width: 100%; }
+        .info-panel {
+            position: absolute; top: 10px; right: 10px; z-index: 1000;
+            background: white; padding: 15px; border-radius: 8px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.2); width: 260px;
+        }
+        .label-group { margin-bottom: 10px; border-bottom: 1px solid #eee; padding-bottom: 5px; }
+        .label-group:last-child { border-bottom: none; }
+        .lvl { font-size: 0.75em; color: #888; text-transform: uppercase; font-weight: bold; }
+        .name { font-size: 1em; color: #333; }
+        .name-mm { font-size: 0.9em; color: #666; }
+        .pcode-badge { 
+            display: block; margin-top: 10px; background: #333; color: white; 
+            padding: 4px 8px; border-radius: 4px; font-family: monospace; font-size: 0.8em; text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="info-panel">
+        <div class="label-group"><div class="lvl">State/Region</div><div class="name">Shan (South)</div><div class="name-mm">ရှမ်းပြည်နယ် (တောင်)</div></div><div class="label-group"><div class="lvl">Township</div><div class="name">Mongnai</div><div class="name-mm">မိုးနဲ</div></div><div class="label-group"><div class="lvl">Village Tract</div><div class="name">Mai Hai</div><div class="name-mm">မိုင်ဟိုင်း</div></div>
+        <span class="pcode-badge">MMR014019007</span>
+        <p style="margin-top:10px; font-size:0.7em; color:#bbb;">Table: vt_table</p>
+    </div>
+    <div id="map"></div>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script>
+        const map = L.map('map');
+        // FIXED: Corrected the braces here ({s}, {z}, {x}, {y})
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; OSM'
+        }).addTo(map);
+        
+        const geojsonData = {"type": "MultiPolygon", "coordinates": [[[[97.85047189376297, 20.554481627924815], [97.8519386349601, 20.570615783791425], [97.85206784235709, 20.570574103811907], [97.86523441443671, 20.570574103811907], [97.88717870063658, 20.571305580887895], [97.90839151155905, 20.575694437948016], [97.92521546542145, 20.595444295617824], [97.93326170336496, 20.622508915953745], [97.92814137012817, 20.64591615540627], [97.89961379743886, 20.689804728705326], [97.89741936800948, 20.70809163402174], [97.89741936800948, 20.718867950195772], [97.90191023696792, 20.719872623322942], [97.90894156570073, 20.722509645104083], [97.92153946317575, 20.72280287894978], [97.93267246126516, 20.724268033742817], [97.9429264772752, 20.728370053834965], [97.95025071519842, 20.733936950829673], [97.95698914193542, 20.73335110996578], [97.96335312874396, 20.7296076028087], [97.96695040523707, 20.727491566382753], [97.98247806011443, 20.727198884720792], [97.99566182813095, 20.731007980334084], [98.0002202685506, 20.731007180836798], [98.01372408819617, 20.679564062231748], [98.02177032613969, 20.643721726876265], [98.01591851582691, 20.615194154186895], [97.99104832492031, 20.577157390301352], [97.98080765844674, 20.55228719939481], [97.97568732431063, 20.549214999272863], [97.9661781331144, 20.54350948437525], [97.94057646513181, 20.53180586464896], [97.93748288003093, 20.532131504665244], [97.93106727393558, 20.542046532021914], [97.91278036861917, 20.55521310410154], [97.88717870063658, 20.55521310410154], [97.86011408119992, 20.554481627924815], [97.85047189376297, 20.554481627924815]]]]};
+        const layer = L.geoJSON(geojsonData, {
+            style: { color: "#0066ff", weight: 3, opacity: 0.6, fillOpacity: 0.2 }
+        }).addTo(map);
+        
+        map.fitBounds(layer.getBounds());
+    </script>
+</body>
+</html>

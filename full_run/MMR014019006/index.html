@@ -1,0 +1,52 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Map View - Nar Hkan</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <style>
+        body { margin: 0; padding: 0; font-family: sans-serif; background: #f4f4f4; }
+        #map { height: 100vh; width: 100%; }
+        .info-panel {
+            position: absolute; top: 10px; right: 10px; z-index: 1000;
+            background: white; padding: 15px; border-radius: 8px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.2); width: 260px;
+        }
+        .label-group { margin-bottom: 10px; border-bottom: 1px solid #eee; padding-bottom: 5px; }
+        .label-group:last-child { border-bottom: none; }
+        .lvl { font-size: 0.75em; color: #888; text-transform: uppercase; font-weight: bold; }
+        .name { font-size: 1em; color: #333; }
+        .name-mm { font-size: 0.9em; color: #666; }
+        .pcode-badge { 
+            display: block; margin-top: 10px; background: #333; color: white; 
+            padding: 4px 8px; border-radius: 4px; font-family: monospace; font-size: 0.8em; text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="info-panel">
+        <div class="label-group"><div class="lvl">State/Region</div><div class="name">Shan (South)</div><div class="name-mm">ရှမ်းပြည်နယ် (တောင်)</div></div><div class="label-group"><div class="lvl">Township</div><div class="name">Mongnai</div><div class="name-mm">မိုးနဲ</div></div><div class="label-group"><div class="lvl">Village Tract</div><div class="name">Nar Hkan</div><div class="name-mm">နားခံ</div></div>
+        <span class="pcode-badge">MMR014019006</span>
+        <p style="margin-top:10px; font-size:0.7em; color:#bbb;">Table: vt_table</p>
+    </div>
+    <div id="map"></div>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script>
+        const map = L.map('map');
+        // FIXED: Corrected the braces here ({s}, {z}, {x}, {y})
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; OSM'
+        }).addTo(map);
+        
+        const geojsonData = {"type": "MultiPolygon", "coordinates": [[[[97.8519386349601, 20.570615783791425], [97.85572522324054, 20.612268248580847], [97.85060489000375, 20.65030501336571], [97.8469475091203, 20.65981420366262], [97.84044877239302, 20.666695218809366], [97.84097272281298, 20.666840777679795], [97.8415585492877, 20.67240754337348], [97.84067948357136, 20.678853239885143], [97.84097231631938, 20.68529895977923], [97.8447808669435, 20.690572800994005], [97.84448773741923, 20.697604484059752], [97.84888223142991, 20.703171322598507], [97.85093292311598, 20.709031103602626], [97.85562044322893, 20.712254052582523], [97.86235883579172, 20.713133146177825], [97.87202696777041, 20.71430528296247], [97.87964429115118, 20.714891407112816], [97.89741936800948, 20.718867950195772], [97.89741936800948, 20.70809163402174], [97.89961379743886, 20.689804728705326], [97.92814137012817, 20.64591615540627], [97.93326170336496, 20.622508915953745], [97.92521546542145, 20.595444295617824], [97.90839151155905, 20.575694437948016], [97.88717870063658, 20.571305580887895], [97.86523441443671, 20.570574103811907], [97.85206784235709, 20.570574103811907], [97.8519386349601, 20.570615783791425]]]]};
+        const layer = L.geoJSON(geojsonData, {
+            style: { color: "#0066ff", weight: 3, opacity: 0.6, fillOpacity: 0.2 }
+        }).addTo(map);
+        
+        map.fitBounds(layer.getBounds());
+    </script>
+</body>
+</html>

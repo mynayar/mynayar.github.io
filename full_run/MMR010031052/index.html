@@ -1,0 +1,52 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Map View - Te Su</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <style>
+        body { margin: 0; padding: 0; font-family: sans-serif; background: #f4f4f4; }
+        #map { height: 100vh; width: 100%; }
+        .info-panel {
+            position: absolute; top: 10px; right: 10px; z-index: 1000;
+            background: white; padding: 15px; border-radius: 8px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.2); width: 260px;
+        }
+        .label-group { margin-bottom: 10px; border-bottom: 1px solid #eee; padding-bottom: 5px; }
+        .label-group:last-child { border-bottom: none; }
+        .lvl { font-size: 0.75em; color: #888; text-transform: uppercase; font-weight: bold; }
+        .name { font-size: 1em; color: #333; }
+        .name-mm { font-size: 0.9em; color: #666; }
+        .pcode-badge { 
+            display: block; margin-top: 10px; background: #333; color: white; 
+            padding: 4px 8px; border-radius: 4px; font-family: monospace; font-size: 0.8em; text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="info-panel">
+        <div class="label-group"><div class="lvl">State/Region</div><div class="name">Mandalay</div><div class="name-mm">မန္တလေးတိုင်းဒေသကြီး</div></div><div class="label-group"><div class="lvl">Township</div><div class="name">Wundwin</div><div class="name-mm">ဝမ်းတွင်း</div></div><div class="label-group"><div class="lvl">Village Tract</div><div class="name">Te Su</div><div class="name-mm">တဲစု</div></div>
+        <span class="pcode-badge">MMR010031052</span>
+        <p style="margin-top:10px; font-size:0.7em; color:#bbb;">Table: vt_table</p>
+    </div>
+    <div id="map"></div>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script>
+        const map = L.map('map');
+        // FIXED: Corrected the braces here ({s}, {z}, {x}, {y})
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; OSM'
+        }).addTo(map);
+        
+        const geojsonData = {"type": "MultiPolygon", "coordinates": [[[[95.85716174941524, 21.125597805594282], [95.8576378451105, 21.122027083383216], [95.86006230673013, 21.114349621437952], [95.85238484478481, 21.111521081832507], [95.84632369028611, 21.118390391403466], [95.84470738194017, 21.125259699175842], [95.83783807416785, 21.127280083708968], [95.83783807416785, 21.137453316317533], [95.8410706890611, 21.138594239432678], [95.84874815190574, 21.14667577936376], [95.85642561385106, 21.151120624617192], [95.86814384666127, 21.153141010049637], [95.87662946277953, 21.155565471669206], [95.87824577112548, 21.147888008824623], [95.87824577112548, 21.144655393931316], [95.87258869281396, 21.143443162671872], [95.86854792374777, 21.1389983156198], [95.86329492342202, 21.135765699827232], [95.85885007637, 21.132937162020482], [95.85682969093756, 21.12808823788191], [95.85716174941524, 21.125597805594282]]]]};
+        const layer = L.geoJSON(geojsonData, {
+            style: { color: "#0066ff", weight: 3, opacity: 0.6, fillOpacity: 0.2 }
+        }).addTo(map);
+        
+        map.fitBounds(layer.getBounds());
+    </script>
+</body>
+</html>

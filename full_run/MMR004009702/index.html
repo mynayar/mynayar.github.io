@@ -1,0 +1,52 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Map View - Urban</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <style>
+        body { margin: 0; padding: 0; font-family: sans-serif; background: #f4f4f4; }
+        #map { height: 100vh; width: 100%; }
+        .info-panel {
+            position: absolute; top: 10px; right: 10px; z-index: 1000;
+            background: white; padding: 15px; border-radius: 8px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.2); width: 260px;
+        }
+        .label-group { margin-bottom: 10px; border-bottom: 1px solid #eee; padding-bottom: 5px; }
+        .label-group:last-child { border-bottom: none; }
+        .lvl { font-size: 0.75em; color: #888; text-transform: uppercase; font-weight: bold; }
+        .name { font-size: 1em; color: #333; }
+        .name-mm { font-size: 0.9em; color: #666; }
+        .pcode-badge { 
+            display: block; margin-top: 10px; background: #333; color: white; 
+            padding: 4px 8px; border-radius: 4px; font-family: monospace; font-size: 0.8em; text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="info-panel">
+        <div class="label-group"><div class="lvl">State/Region</div><div class="name">Chin</div><div class="name-mm">ချင်းပြည်နယ်</div></div><div class="label-group"><div class="lvl">Township</div><div class="name">Paletwa</div><div class="name-mm">ပလက်ဝ</div></div><div class="label-group"><div class="lvl">Village Tract</div><div class="name">Urban</div><div class="name-mm"></div></div>
+        <span class="pcode-badge">MMR004009702</span>
+        <p style="margin-top:10px; font-size:0.7em; color:#bbb;">Table: vt_table</p>
+    </div>
+    <div id="map"></div>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script>
+        const map = L.map('map');
+        // FIXED: Corrected the braces here ({s}, {z}, {x}, {y})
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; OSM'
+        }).addTo(map);
+        
+        const geojsonData = {"type": "MultiPolygon", "coordinates": [[[[93.10854239861288, 21.30411697741664], [93.11097101689899, 21.302031904648743], [93.11128827793175, 21.299414497081443], [93.11025717822628, 21.2958453064158], [93.11025717822628, 21.289103500026556], [93.10589483318006, 21.281806486380276], [93.10465713222095, 21.280705414923034], [93.09978754975566, 21.27637338332505], [93.0949889705646, 21.27617509540437], [93.08904031765661, 21.277761402366878], [93.08293303423221, 21.280815044079077], [93.08098980793335, 21.286010200010764], [93.078768978006, 21.292633033287927], [93.0777923574314, 21.295343985636464], [93.07979591834703, 21.296270740602267], [93.08167917965051, 21.298129486386756], [93.08318532644171, 21.299523315048987], [93.08619935571573, 21.30266035179386], [93.08772139982278, 21.303820612131574], [93.08861038506126, 21.30339920331062], [93.0895490119774, 21.30301270976878], [93.09043242501644, 21.302653823615117], [93.0914538713991, 21.301991263386128], [93.09197839828454, 21.301770409676692], [93.09286181132359, 21.301466737400062], [93.09380043823967, 21.30130109666834], [93.09462863830106, 21.30102502998119], [93.09548444485131, 21.300886996637644], [93.09639546527853, 21.30072135680524], [93.09888006456339, 21.301163063324736], [93.10056407207435, 21.302184509707388], [93.10186158514409, 21.302874676425233], [93.10246893059673, 21.303178349601183], [93.10310388523618, 21.303123136623526], [93.10384926493168, 21.302764249570487], [93.10462225201536, 21.30232254305099], [93.1054228455879, 21.302267330073278], [93.1072172781549, 21.30301270976878], [93.10854239861288, 21.30411697741664]]]]};
+        const layer = L.geoJSON(geojsonData, {
+            style: { color: "#0066ff", weight: 3, opacity: 0.6, fillOpacity: 0.2 }
+        }).addTo(map);
+        
+        map.fitBounds(layer.getBounds());
+    </script>
+</body>
+</html>

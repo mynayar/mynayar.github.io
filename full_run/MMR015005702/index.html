@@ -1,0 +1,52 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Map View - Urban</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <style>
+        body { margin: 0; padding: 0; font-family: sans-serif; background: #f4f4f4; }
+        #map { height: 100vh; width: 100%; }
+        .info-panel {
+            position: absolute; top: 10px; right: 10px; z-index: 1000;
+            background: white; padding: 15px; border-radius: 8px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.2); width: 260px;
+        }
+        .label-group { margin-bottom: 10px; border-bottom: 1px solid #eee; padding-bottom: 5px; }
+        .label-group:last-child { border-bottom: none; }
+        .lvl { font-size: 0.75em; color: #888; text-transform: uppercase; font-weight: bold; }
+        .name { font-size: 1em; color: #333; }
+        .name-mm { font-size: 0.9em; color: #666; }
+        .pcode-badge { 
+            display: block; margin-top: 10px; background: #333; color: white; 
+            padding: 4px 8px; border-radius: 4px; font-family: monospace; font-size: 0.8em; text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="info-panel">
+        <div class="label-group"><div class="lvl">State/Region</div><div class="name">Shan (North)</div><div class="name-mm">ရှမ်းပြည်နယ် (မြောက်)</div></div><div class="label-group"><div class="lvl">Township</div><div class="name">Pangsang</div><div class="name-mm">ပန်ဆန်း (ပန်ခမ်း)</div></div><div class="label-group"><div class="lvl">Village Tract</div><div class="name">Urban</div><div class="name-mm"></div></div>
+        <span class="pcode-badge">MMR015005702</span>
+        <p style="margin-top:10px; font-size:0.7em; color:#bbb;">Table: vt_table</p>
+    </div>
+    <div id="map"></div>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script>
+        const map = L.map('map');
+        // FIXED: Corrected the braces here ({s}, {z}, {x}, {y})
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; OSM'
+        }).addTo(map);
+        
+        const geojsonData = {"type": "MultiPolygon", "coordinates": [[[[98.60743678268142, 22.68805084437105], [98.60186247437377, 22.68721469700074], [98.5995692616122, 22.68703829588071], [98.59935537135334, 22.687104693726667], [98.59921196006394, 22.687115317418034], [98.59906854877454, 22.68716843227736], [98.59892513838452, 22.6872427936201], [98.59882953055848, 22.687285285687437], [98.59869674296039, 22.68733840144614], [98.59851083960365, 22.687327777754774], [98.59831962575021, 22.687306532170794], [98.5980965417221, 22.687274662895447], [98.59792126205667, 22.68725341731141], [98.59776191657926, 22.68725341731141], [98.59754945624246, 22.687237482224077], [98.59742729143642, 22.687274662895447], [98.597278568751, 22.687317154962784], [98.59709266629358, 22.68729059708346], [98.59684833578211, 22.68725341731141], [98.59658807198201, 22.68715780858605], [98.59634905376589, 22.687056891162626], [98.59610472415375, 22.68696659473261], [98.59587101823297, 22.686876299201913], [98.59573291833959, 22.6868603650139], [98.59557888425815, 22.686807250154516], [98.59544780806993, 22.68672126057777], [98.59461587222478, 22.68665726572027], [98.59303767624783, 22.685868168181457], [98.5921127963685, 22.68799339118209], [98.59147004730488, 22.690816899080687], [98.59119458226422, 22.693847004635586], [98.59337534019983, 22.694076558386485], [98.59424764391372, 22.692722192874953], [98.59399513496754, 22.690977586346605], [98.59532654528391, 22.69040370286865], [98.59973397244494, 22.691161228807687], [98.60662057597887, 22.691505559434063], [98.60743678268142, 22.68805084437105]]]]};
+        const layer = L.geoJSON(geojsonData, {
+            style: { color: "#0066ff", weight: 3, opacity: 0.6, fillOpacity: 0.2 }
+        }).addTo(map);
+        
+        map.fitBounds(layer.getBounds());
+    </script>
+</body>
+</html>

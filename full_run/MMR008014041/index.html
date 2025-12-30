@@ -1,0 +1,52 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Map View - Hnget Gyi Thaik</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <style>
+        body { margin: 0; padding: 0; font-family: sans-serif; background: #f4f4f4; }
+        #map { height: 100vh; width: 100%; }
+        .info-panel {
+            position: absolute; top: 10px; right: 10px; z-index: 1000;
+            background: white; padding: 15px; border-radius: 8px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.2); width: 260px;
+        }
+        .label-group { margin-bottom: 10px; border-bottom: 1px solid #eee; padding-bottom: 5px; }
+        .label-group:last-child { border-bottom: none; }
+        .lvl { font-size: 0.75em; color: #888; text-transform: uppercase; font-weight: bold; }
+        .name { font-size: 1em; color: #333; }
+        .name-mm { font-size: 0.9em; color: #666; }
+        .pcode-badge { 
+            display: block; margin-top: 10px; background: #333; color: white; 
+            padding: 4px 8px; border-radius: 4px; font-family: monospace; font-size: 0.8em; text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="info-panel">
+        <div class="label-group"><div class="lvl">State/Region</div><div class="name">Bago (West)</div><div class="name-mm">ပဲခူးတိုင်းဒေသကြီး (အနောက်)</div></div><div class="label-group"><div class="lvl">Township</div><div class="name">Gyobingauk</div><div class="name-mm">ကြို့ပင်ကောက်</div></div><div class="label-group"><div class="lvl">Village Tract</div><div class="name">Hnget Gyi Thaik</div><div class="name-mm">ငှက်ကြီးသိုက်</div></div>
+        <span class="pcode-badge">MMR008014041</span>
+        <p style="margin-top:10px; font-size:0.7em; color:#bbb;">Table: vt_table</p>
+    </div>
+    <div id="map"></div>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script>
+        const map = L.map('map');
+        // FIXED: Corrected the braces here ({s}, {z}, {x}, {y})
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; OSM'
+        }).addTo(map);
+        
+        const geojsonData = {"type": "MultiPolygon", "coordinates": [[[[95.72908166518675, 18.224077899575434], [95.7243611768269, 18.221229790722305], [95.71789222114916, 18.221229790722305], [95.70936496102416, 18.219465530409934], [95.7023079179761, 18.22005361688099], [95.69378065695184, 18.220641704251307], [95.69201639663947, 18.224464269010866], [95.68966798888664, 18.228916629898606], [95.69195218234739, 18.229880804755396], [95.69936748292304, 18.233873659741676], [95.7023079179761, 18.237696225400555], [95.70377813505297, 18.24240091986661], [95.71142326457203, 18.247105615231987], [95.71642200407229, 18.249457962914732], [95.72083265530284, 18.252986485338056], [95.7234790471204, 18.2450473107848], [95.7243611768269, 18.24122474602524], [95.72759565511546, 18.23534387681849], [95.72984451960895, 18.229342511947436], [95.72756283525672, 18.227821388746122], [95.72756283525672, 18.2262362383118], [95.72908166518675, 18.224077899575434]]]]};
+        const layer = L.geoJSON(geojsonData, {
+            style: { color: "#0066ff", weight: 3, opacity: 0.6, fillOpacity: 0.2 }
+        }).addTo(map);
+        
+        map.fitBounds(layer.getBounds());
+    </script>
+</body>
+</html>

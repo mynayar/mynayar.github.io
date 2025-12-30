@@ -1,0 +1,52 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Map View - Ka Hsint</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <style>
+        body { margin: 0; padding: 0; font-family: sans-serif; background: #f4f4f4; }
+        #map { height: 100vh; width: 100%; }
+        .info-panel {
+            position: absolute; top: 10px; right: 10px; z-index: 1000;
+            background: white; padding: 15px; border-radius: 8px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.2); width: 260px;
+        }
+        .label-group { margin-bottom: 10px; border-bottom: 1px solid #eee; padding-bottom: 5px; }
+        .label-group:last-child { border-bottom: none; }
+        .lvl { font-size: 0.75em; color: #888; text-transform: uppercase; font-weight: bold; }
+        .name { font-size: 1em; color: #333; }
+        .name-mm { font-size: 0.9em; color: #666; }
+        .pcode-badge { 
+            display: block; margin-top: 10px; background: #333; color: white; 
+            padding: 4px 8px; border-radius: 4px; font-family: monospace; font-size: 0.8em; text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="info-panel">
+        <div class="label-group"><div class="lvl">State/Region</div><div class="name">Shan (North)</div><div class="name-mm">ရှမ်းပြည်နယ် (မြောက်)</div></div><div class="label-group"><div class="lvl">Township</div><div class="name">Pangsang</div><div class="name-mm">ပန်ဆန်း (ပန်ခမ်း)</div></div><div class="label-group"><div class="lvl">Village Tract</div><div class="name">Ka Hsint</div><div class="name-mm">ကဆင့်</div></div>
+        <span class="pcode-badge">MMR015005010</span>
+        <p style="margin-top:10px; font-size:0.7em; color:#bbb;">Table: vt_table</p>
+    </div>
+    <div id="map"></div>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script>
+        const map = L.map('map');
+        // FIXED: Corrected the braces here ({s}, {z}, {x}, {y})
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; OSM'
+        }).addTo(map);
+        
+        const geojsonData = {"type": "MultiPolygon", "coordinates": [[[[98.72747314167219, 22.746050889437072], [98.72812057890167, 22.744351367721492], [98.74344992877127, 22.735432472630578], [98.74707322984574, 22.722332846084043], [98.74839936743689, 22.721237342329516], [98.74512222171325, 22.71202037414099], [98.73794075835934, 22.705943750403833], [98.731431245056, 22.7022084891305], [98.71948039990059, 22.70003560925602], [98.70582334207364, 22.701986617388513], [98.69634701570226, 22.699199461885712], [98.68787994900049, 22.693598172118016], [98.67823051122917, 22.68721469700074], [98.67020676083342, 22.68532675562534], [98.66875418485779, 22.684984973677672], [98.65646017010084, 22.687036777825085], [98.65314611889835, 22.691674145445518], [98.65091639557528, 22.698363316314044], [98.65121071939922, 22.70150276683927], [98.65175254204621, 22.70728221140496], [98.65676618601071, 22.72459128026344], [98.6662457463442, 22.736547334292084], [98.67858810865437, 22.75071449387883], [98.68408353562671, 22.752712830632674], [98.68910041355332, 22.748532099177112], [98.69885545511522, 22.743515221250505], [98.70610205726422, 22.740728065747703], [98.7108402200002, 22.739891920176035], [98.72338241616563, 22.74379393644108], [98.72747314167219, 22.746050889437072]]]]};
+        const layer = L.geoJSON(geojsonData, {
+            style: { color: "#0066ff", weight: 3, opacity: 0.6, fillOpacity: 0.2 }
+        }).addTo(map);
+        
+        map.fitBounds(layer.getBounds());
+    </script>
+</body>
+</html>

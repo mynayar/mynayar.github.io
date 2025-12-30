@@ -1,0 +1,52 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Map View - Lein Pin Kwin</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <style>
+        body { margin: 0; padding: 0; font-family: sans-serif; background: #f4f4f4; }
+        #map { height: 100vh; width: 100%; }
+        .info-panel {
+            position: absolute; top: 10px; right: 10px; z-index: 1000;
+            background: white; padding: 15px; border-radius: 8px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.2); width: 260px;
+        }
+        .label-group { margin-bottom: 10px; border-bottom: 1px solid #eee; padding-bottom: 5px; }
+        .label-group:last-child { border-bottom: none; }
+        .lvl { font-size: 0.75em; color: #888; text-transform: uppercase; font-weight: bold; }
+        .name { font-size: 1em; color: #333; }
+        .name-mm { font-size: 0.9em; color: #666; }
+        .pcode-badge { 
+            display: block; margin-top: 10px; background: #333; color: white; 
+            padding: 4px 8px; border-radius: 4px; font-family: monospace; font-size: 0.8em; text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="info-panel">
+        <div class="label-group"><div class="lvl">State/Region</div><div class="name">Bago (West)</div><div class="name-mm">ပဲခူးတိုင်းဒေသကြီး (အနောက်)</div></div><div class="label-group"><div class="lvl">Township</div><div class="name">Gyobingauk</div><div class="name-mm">ကြို့ပင်ကောက်</div></div><div class="label-group"><div class="lvl">Village Tract</div><div class="name">Lein Pin Kwin</div><div class="name-mm">လိန်ပင်ကွင်း</div></div>
+        <span class="pcode-badge">MMR008014015</span>
+        <p style="margin-top:10px; font-size:0.7em; color:#bbb;">Table: vt_table</p>
+    </div>
+    <div id="map"></div>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script>
+        const map = L.map('map');
+        // FIXED: Corrected the braces here ({s}, {z}, {x}, {y})
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; OSM'
+        }).addTo(map);
+        
+        const geojsonData = {"type": "MultiPolygon", "coordinates": [[[[95.63242172408337, 18.144471181899576], [95.62972370488512, 18.146506717311183], [95.62486374516578, 18.150343528231303], [95.62025957332071, 18.15750557342352], [95.61944484420428, 18.15785980288763], [95.621114790815, 18.16274094703715], [95.62421082297118, 18.172029042606255], [95.62606844190515, 18.176611170269325], [95.629412156346, 18.18069793336298], [95.6326320287452, 18.184289330088575], [95.6343658074361, 18.18540390126907], [95.64154860088729, 18.186146949022543], [95.64253933182476, 18.186146949022543], [95.64427310961639, 18.18206018682821], [95.64563536398094, 18.1776019012068], [95.64848371295307, 18.17413434472428], [95.64922676070648, 18.173143614686126], [95.65448945932116, 18.173932288644266], [95.65616071264685, 18.174264420866393], [95.65563663542247, 18.17055783087926], [95.65455044504705, 18.161283092041117], [95.65365519782915, 18.15847106129047], [95.65167375933657, 18.157282197115762], [95.64627242213464, 18.156434927829707], [95.64578510559818, 18.15636336967384], [95.64394615119397, 18.156093334739637], [95.63758259336203, 18.15217336980521], [95.63524021196628, 18.14809602890864], [95.63336669121986, 18.1449258116769], [95.63242172408337, 18.144471181899576]]]]};
+        const layer = L.geoJSON(geojsonData, {
+            style: { color: "#0066ff", weight: 3, opacity: 0.6, fillOpacity: 0.2 }
+        }).addTo(map);
+        
+        map.fitBounds(layer.getBounds());
+    </script>
+</body>
+</html>

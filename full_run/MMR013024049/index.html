@@ -1,0 +1,52 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Map View - Zee Hpyu Pin</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <style>
+        body { margin: 0; padding: 0; font-family: sans-serif; background: #f4f4f4; }
+        #map { height: 100vh; width: 100%; }
+        .info-panel {
+            position: absolute; top: 10px; right: 10px; z-index: 1000;
+            background: white; padding: 15px; border-radius: 8px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.2); width: 260px;
+        }
+        .label-group { margin-bottom: 10px; border-bottom: 1px solid #eee; padding-bottom: 5px; }
+        .label-group:last-child { border-bottom: none; }
+        .lvl { font-size: 0.75em; color: #888; text-transform: uppercase; font-weight: bold; }
+        .name { font-size: 1em; color: #333; }
+        .name-mm { font-size: 0.9em; color: #666; }
+        .pcode-badge { 
+            display: block; margin-top: 10px; background: #333; color: white; 
+            padding: 4px 8px; border-radius: 4px; font-family: monospace; font-size: 0.8em; text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="info-panel">
+        <div class="label-group"><div class="lvl">State/Region</div><div class="name">Yangon</div><div class="name-mm">ရန်ကုန်တိုင်းဒေသကြီး</div></div><div class="label-group"><div class="lvl">Township</div><div class="name">Kyauktan</div><div class="name-mm">ကျောက်တန်း</div></div><div class="label-group"><div class="lvl">Village Tract</div><div class="name">Zee Hpyu Pin</div><div class="name-mm">ဇီးဖြူပင်</div></div>
+        <span class="pcode-badge">MMR013024049</span>
+        <p style="margin-top:10px; font-size:0.7em; color:#bbb;">Table: vt_table</p>
+    </div>
+    <div id="map"></div>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script>
+        const map = L.map('map');
+        // FIXED: Corrected the braces here ({s}, {z}, {x}, {y})
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; OSM'
+        }).addTo(map);
+        
+        const geojsonData = {"type": "MultiPolygon", "coordinates": [[[[96.52379035034443, 16.69150309559143], [96.52455109405781, 16.688023937854496], [96.52478220003854, 16.685164619851378], [96.52471524011628, 16.68120525022215], [96.52481676008546, 16.676640269932534], [96.5248243197866, 16.672143239718764], [96.52482468041472, 16.67181860964115], [96.52522389666558, 16.6694141345547], [96.52326069912203, 16.669388432829976], [96.52164266587641, 16.67024503887751], [96.52050052417991, 16.670816109276075], [96.51935838338272, 16.671006466075596], [96.51802588488675, 16.67138718057396], [96.51612231599216, 16.670911288125524], [96.51498017519498, 16.67024503887751], [96.51440910479641, 16.669388432829976], [96.51288625040019, 16.669293254879847], [96.51050678815778, 16.669102898080325], [96.50822250566415, 16.669102898080325], [96.50536715277195, 16.668722183581963], [96.50422501107545, 16.66834146998292], [96.50384429657709, 16.667865578433748], [96.5027021557799, 16.66662825788785], [96.50079858778463, 16.66643790108833], [96.49796057202286, 16.666616281616143], [96.49385700599606, 16.666811699800178], [96.49492776400518, 16.667941942566642], [96.4968908185565, 16.66936961991206], [96.4987377103771, 16.670707024209833], [96.50034103790864, 16.67186805436728], [96.50204253183745, 16.67282211185102], [96.50438612102272, 16.674188028254946], [96.50664660925366, 16.675615705600364], [96.50688455457856, 16.67668646271011], [96.50623020336127, 16.677578761051052], [96.50369283995263, 16.678677413332025], [96.50046001102078, 16.680077194606895], [96.49796415761983, 16.681772810566827], [96.49661817289041, 16.682473510144405], [96.49571397741818, 16.683234937342547], [96.49552362061866, 16.683996365439953], [96.49571397741818, 16.68480538206279], [96.49604710159252, 16.684995738862312], [96.49712794639765, 16.685075690390875], [96.49861691973513, 16.684710203213342], [96.49956870463205, 16.684234311664227], [96.50094879165346, 16.68333011619194], [96.50234228576795, 16.682210624820527], [96.50385173397041, 16.681569314672174], [96.50470834001794, 16.6814741367221], [96.50562588322799, 16.681991719042628], [96.50775404970966, 16.68361565184091], [96.50989556482853, 16.684948149437616], [96.51045666624219, 16.685199168207077], [96.51170395577299, 16.685757166060398], [96.51479725488946, 16.68713725398112], [96.51936581987673, 16.689338255656025], [96.52379035034443, 16.69150309559143]]]]};
+        const layer = L.geoJSON(geojsonData, {
+            style: { color: "#0066ff", weight: 3, opacity: 0.6, fillOpacity: 0.2 }
+        }).addTo(map);
+        
+        map.fitBounds(layer.getBounds());
+    </script>
+</body>
+</html>

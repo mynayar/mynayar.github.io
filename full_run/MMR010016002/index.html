@@ -1,0 +1,52 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Map View - Ba Leit Ba</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <style>
+        body { margin: 0; padding: 0; font-family: sans-serif; background: #f4f4f4; }
+        #map { height: 100vh; width: 100%; }
+        .info-panel {
+            position: absolute; top: 10px; right: 10px; z-index: 1000;
+            background: white; padding: 15px; border-radius: 8px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.2); width: 260px;
+        }
+        .label-group { margin-bottom: 10px; border-bottom: 1px solid #eee; padding-bottom: 5px; }
+        .label-group:last-child { border-bottom: none; }
+        .lvl { font-size: 0.75em; color: #888; text-transform: uppercase; font-weight: bold; }
+        .name { font-size: 1em; color: #333; }
+        .name-mm { font-size: 0.9em; color: #666; }
+        .pcode-badge { 
+            display: block; margin-top: 10px; background: #333; color: white; 
+            padding: 4px 8px; border-radius: 4px; font-family: monospace; font-size: 0.8em; text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="info-panel">
+        <div class="label-group"><div class="lvl">State/Region</div><div class="name">Mandalay</div><div class="name-mm">မန္တလေးတိုင်းဒေသကြီး</div></div><div class="label-group"><div class="lvl">Township</div><div class="name">Tada-U</div><div class="name-mm">တံတားဦး</div></div><div class="label-group"><div class="lvl">Village Tract</div><div class="name">Ba Leit Ba</div><div class="name-mm">ဘလဲ့ဘ</div></div>
+        <span class="pcode-badge">MMR010016002</span>
+        <p style="margin-top:10px; font-size:0.7em; color:#bbb;">Table: vt_table</p>
+    </div>
+    <div id="map"></div>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script>
+        const map = L.map('map');
+        // FIXED: Corrected the braces here ({s}, {z}, {x}, {y})
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; OSM'
+        }).addTo(map);
+        
+        const geojsonData = {"type": "MultiPolygon", "coordinates": [[[[95.9948856668401, 21.8283129680691], [95.99509607672263, 21.826485780394478], [95.99522623919961, 21.826046978685156], [95.99550449483661, 21.825108939925713], [95.9964271300081, 21.824060337614526], [95.99844570690391, 21.822469561021478], [96.00130219923716, 21.821187155662756], [96.00328581318979, 21.819688046066517], [96.0036367349474, 21.81730803523766], [96.0037090764128, 21.814442905815497], [96.00363670437048, 21.811929816907593], [96.00373631957552, 21.809289927188445], [96.00237083394688, 21.809259414990038], [96.00087058221163, 21.811497260090505], [96.0007725785917, 21.811643478164058], [95.9993463185778, 21.811598769267846], [96.00009773632155, 21.80827105916211], [95.99845929566004, 21.804994175141132], [95.99845929566004, 21.80089807258804], [95.99559202585135, 21.80089807258804], [95.9914959206003, 21.805608591962994], [95.9861709897994, 21.808066252955257], [95.98023164217659, 21.807451837032716], [95.97823174509904, 21.808378925646934], [95.97664419167614, 21.80982639976861], [95.9780765562881, 21.81180736341912], [95.97934750428396, 21.813441438771406], [95.98112279568056, 21.815761421652326], [95.98255513421213, 21.81769810358469], [95.98275687103285, 21.818041058248298], [95.98073949383263, 21.819493570372003], [95.9796097627804, 21.820280346760626], [95.97916594015607, 21.820643475016425], [95.97896420243603, 21.82080124398226], [95.97921404579165, 21.821074881600566], [95.97921404579165, 21.82149128839228], [95.9788605582682, 21.82174764643679], [95.97991834265747, 21.823674325209993], [95.9839424248031, 21.829844582761325], [95.98471831309973, 21.829844582761325], [95.988693242799, 21.83234494266503], [95.99272475424408, 21.830185203684266], [95.9948856668401, 21.8283129680691]]]]};
+        const layer = L.geoJSON(geojsonData, {
+            style: { color: "#0066ff", weight: 3, opacity: 0.6, fillOpacity: 0.2 }
+        }).addTo(map);
+        
+        map.fitBounds(layer.getBounds());
+    </script>
+</body>
+</html>
